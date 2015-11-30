@@ -1,0 +1,200 @@
+Image #1: 0
+
+Image #2: impossible
+
+Image #3: 1
+
+Image #4: 2
+
+Image #5: 5
+
+Image #6: 27
+
+Image #7: 5
+
+Image #8: 16
+
+Image #9: 17
+
+Image #10: 18
+
+Image #11: 12
+
+Image #12: 13
+
+Image #13: 27
+
+Image #14: 0
+
+Image #15: 1
+
+Image #16: 2
+
+Image #17: 2
+
+Image #18: 4
+
+Image #19: 5
+
+Image #20: 5
+
+Image #21: 5
+
+Image #22: 6
+
+Image #23: 6
+
+Image #24: 6
+
+Image #25: 3
+
+Image #26: 9
+
+Image #27: 7
+
+Image #28: 9
+
+Image #29: 5
+
+Image #30: 11
+
+Image #31: 11
+
+Image #32: 9
+
+Image #33: 10
+
+Image #34: 10
+
+Image #35: 7
+
+Image #36: 13
+
+Image #37: 8
+
+Image #38: 12
+
+Image #39: 13
+
+Image #40: 7
+
+Image #41: 17
+
+Image #42: 11
+
+Image #43: 7
+
+Image #44: 7
+
+Image #45: 14
+
+Image #46: 8
+
+Image #47: 8
+
+Image #48: 11
+
+Image #49: 12
+
+Image #50: 6
+
+Image #51: impossible
+
+Image #52: 0
+
+Image #53: 0
+
+Image #54: 0
+
+Image #55: 0
+
+Image #56: 0
+
+Image #57: impossible
+
+Image #58: 0
+
+Image #59: 0
+
+Image #60: 0
+
+Image #61: 0
+
+Image #62: impossible
+
+Image #63: impossible
+
+Image #64: impossible
+
+Image #65: impossible
+
+Image #66: impossible
+
+Image #67: impossible
+
+Image #68: 0
+
+Image #69: impossible
+
+Image #70: 0
+
+Image #71: impossible
+
+Image #72: 0
+
+Image #73: impossible
+
+Image #74: impossible
+
+Image #75: impossible
+
+Image #76: 0
+
+Image #77: 0
+
+Image #78: 0
+
+Image #79: impossible
+
+Image #80: impossible
+
+Image #81: 0
+
+Image #82: impossible
+
+Image #83: impossible
+
+Image #84: impossible
+
+Image #85: 0
+
+Image #86: impossible
+
+Image #87: impossible
+
+Image #88: impossible
+
+Image #89: 0
+
+Image #90: impossible
+
+Image #91: impossible
+
+Image #92: 0
+
+Image #93: impossible
+
+Image #94: impossible
+
+Image #95: impossible
+
+Image #96: impossible
+
+Image #97: impossible
+
+Image #98: 0
+
+Image #99: 8
+
+Image #100: impossible
+
