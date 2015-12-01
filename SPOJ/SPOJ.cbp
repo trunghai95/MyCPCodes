@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="C11ID.cpp" />
+		<Unit filename="C11SEVEN.cpp" />
 		<Unit filename="in.txt" />
 		<Unit filename="out.txt" />
 		<Extensions>
