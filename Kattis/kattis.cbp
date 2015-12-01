@@ -32,8 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="digitsum.cpp" />
 		<Unit filename="in.txt" />
+		<Unit filename="shopaholic.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
