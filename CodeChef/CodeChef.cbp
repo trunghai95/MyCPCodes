@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="SEAPAIR.cpp" />
+		<Unit filename="PLANEDIV.cpp" />
 		<Unit filename="in.txt" />
 		<Unit filename="out.txt" />
 		<Extensions>
