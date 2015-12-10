@@ -30,3 +30,9 @@
 # Test input/output
 in.txt
 out.txt
+
+# Code::Blocks project files
+# (of course they are unneccessary)
+*.cbp
+*.depend
+*.layout

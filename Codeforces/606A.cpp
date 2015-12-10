@@ -6,31 +6,19 @@ int a[3], b[3];
 
 int main()
 {
-    int op = 0;
-
     for (int i = 0; i < 3; ++i)
-        cin >> a[i], op += a[i];
+        cin >> a[i];
     for (int i = 0; i < 3; ++i)
-        cin >> b[i], op -= b[i];
+        cin >> b[i];
 
-    if (op < 0)
-    {
-        cout << "No";
-        return 0;
-    }
-
-    int ss = 0;
+    int s = 0;
     for (int i = 0; i < 3; ++i)
     {
-        if (a[i] < b[i]) ss += b[i] - a[i];
-        else
-            ss += (a[i] - b[i])/2 + 2*((a[i] - b[i]) & 1);
+        if (a[i] > b[i]) s += (a[i] - b[i]) / 2;
+        else s -= (b[i] - a[i]);
     }
 
-    ss /= 2;
-
-    if (ss == op)
-        cout << "Yes";
+    if (s >= 0) cout << "Yes";
     else cout << "No";
     return 0;
 }
