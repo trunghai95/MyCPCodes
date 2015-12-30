@@ -1,59 +1,58 @@
-//WA
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int k, kk, line, cnt;
-char s1[400], s2[400];
-
-void solve(int p)
+struct Mat
 {
-    if (line == 0)
-        return;
-    if (cnt == kk)
+    char mp[600][600];
+    int sz;
+
+    Mat() { memset(mp, 0, sizeof(mp)); }
+
+    void construct(Mat &m, Mat &mn)
     {
-        cout << s1 << s1 << '\n' << s1 << s2 << '\n';
-        line -= 2;
-        return;
+        sz = (m.sz << 1);
+
+        for (int i = 0; i < m.sz; ++i)
+        for (int j = 0; j < sz; ++j)
+            mp[i][j] = m.mp[i][j % m.sz];
+
+        for (int i = m.sz; i < sz; ++i)
+        for (int j = 0; j < m.sz; ++j)
+            mp[i][j] = m.mp[i % m.sz][j];
+
+        for (int i = m.sz; i < sz; ++i)
+        for (int j = m.sz; j < sz; ++j)
+            mp[i][j] = mn.mp[i % m.sz][j % m.sz];
+    }
+};
+
+Mat m[10], mn[10];
+
+void init()
+{
+    m[0].sz = mn[0].sz = 1;
+    m[0].mp[0][0] = '+';
+    mn[0].mp[0][0] = '*';
+
+    for (int i = 1; i < 9; ++i)
+    {
+        m[i].construct(m[i-1], mn[i-1]);
+        mn[i].construct(mn[i-1], m[i-1]);
     }
 
-    for (int i = p; line && i < (k >> 1); ++i)
-    {
-        s1[i] = '*', s2[i] = '+';
-        ++cnt;
-        solve(i + 1);
-        --cnt;
-        s1[i] = '+', s2[i] = '*';
-    }
+    m[9].construct(m[8], mn[8]);
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin >> k;
-    if (k == 0)
+    init();
+    int k;
+    scanf("%d", &k);
+
+    for (int i = 0; i < m[k].sz; ++i)
     {
-        cout << "+";
-        return 0;
+        printf("%s\n", m[k].mp[i]);
     }
-
-    k = 1 << k;
-    kk = k >> 2;
-
-    for (int i = 0; i < k; ++i)
-        cout << "+";
-    cout << '\n';
-    for (int i = (k >> 1); i > 0; --i)
-        cout << "+";
-    for (int i = (k >> 1); i > 0; --i)
-        cout << "*";
-    cout << '\n';
-    for (int i = 0; i < (k >> 1); ++i)
-        s1[i] = '+', s2[i] = '*';
-
-    line = k - 2;
-    cnt = 0;
-
-    solve(0);
     return 0;
 }
