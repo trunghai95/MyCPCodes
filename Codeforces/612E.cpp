@@ -1,4 +1,3 @@
-//WA
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -15,7 +14,8 @@ void f1(int p)
 {
     for (int i = 0; i < cycles[p].size(); ++i)
     {
-        res[cycles[p][(i+2)%cycles[p].size()]] = cycles[p][i];
+//        res[cycles[p][(i+2)%cycles[p].size()]] = cycles[p][i];
+        res[cycles[p][i]] = cycles[p][(cycles[p].size() / 2 + 1 + i) % cycles[p].size()];
     }
 }
 
@@ -30,13 +30,17 @@ void f2(int p, int q)
 
 int main()
 {
+    //freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
     scanf("%d", &n);
     for (int i = 1; i <= n; ++i)
     {
         scanf("%d", a+i);
+//        printf("_%d_ %03d\n", i, a[i]);
         if (a[i] == i)
             res[i] = i, a[i] = 0;
     }
+//    printf("\n\n");
 
     for (int i = 1; i <= n; ++i)
     if (a[i])
@@ -46,11 +50,14 @@ int main()
         int j = i;
         while (a[j])
         {
+//            printf("%03d ", j);
             cycles.back().push_back(j);
             int tmp = a[j];
             a[j] = 0;
             j = tmp;
         }
+
+ //       printf("\n");
     }
 
     for (int i = 0; i < cycles.size(); ++i)
@@ -73,5 +80,6 @@ int main()
 
     for (int i = 1; i <= n; ++i)
         printf("%d ", res[i]);
+
     return 0;
 }
