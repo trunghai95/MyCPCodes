@@ -3,51 +3,38 @@
 using namespace std;
 
 typedef pair<int,int> pii;
-int n, k, a, m, sum, x;
-vector<pii> seg;
+
+int n, k, a, m, i, x, sum;
+set<pii> seg;
 
 int main()
 {
-    cin >> n >> k >> a >> m;
-    seg.push_back(pii(1,n));
-    sum = n/a;
-    if (sum < k)
+    scanf("%d %d %d %d", &n, &k, &a, &m);
+    seg.insert(pii(n, 1));
+    sum = (n+1)/(a+1);
+
+    for (i = 0; i < m && sum >= k; ++i)
     {
-        cout << 0;
-        return 0;
-    }
-    for (int i = 0; i < m; ++i)
-    {
-        cin >> x;
-        for (int j = 0; j < seg.size(); ++j)
+        scanf("%d", &x);
+        set<pii>::iterator it = seg.lower_bound(pii(x, -1));
+        int l = (*it).second, r = (*it).first;
+        seg.erase(it);
+        sum -= (r - l + 2)/(a+1);
+        if (x - 1 >= l)
         {
-            if (seg[j].first == x)
-            {
-                sum = sum - (seg[j].second - seg[j].first + 1)/a + (seg[j].second - seg[j].first)/a;
-                ++seg[j].first;
-                break;
-            }
-            if (seg[j].second == x)
-            {
-                sum = sum - (seg[j].second - seg[j].first + 1)/a + (seg[j].second - seg[j].first)/a;
-                --seg[j].second;
-                break;
-            }
-            if (seg[j].first < x && seg[j].second > x)
-            {
-                sum = sum - (seg[j].second - seg[j].first + 1)/a + (x - seg[j].first)/a + (seg[j].second - x)/a;
-                if (x - seg[j].first >= a) seg.push_back(pii(seg[j].first,x-1));
-                if (seg[j].second - x >= a) seg.push_back(pii(x+1,seg[j].second));
-                seg.erase(seg.begin()+j);
-                break;
-            }
+            sum += (x - l + 1)/(a+1);
+            seg.insert(pii(x-1, l));
         }
-        if (sum < k)
+        if (x + 1 <= r)
         {
-            cout << i+1;
-            return 0;
+            sum += (r - x + 1)/(a+1);
+            seg.insert(pii(r, x+1));
         }
     }
-    cout << -1;
+
+    if (sum >= k)
+        printf("-1");
+    else
+        printf("%d", i);
     return 0;
 }
