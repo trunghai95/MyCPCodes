@@ -1,19 +1,11 @@
+// C++11
 #include <bits/stdc++.h>
 
 using namespace std;
 
+const int MAXA = 1000000;
+
 typedef pair<int,int> pii;
-
-struct Cmp
-{
-	bool operator()(pii x, pii y) { return x > y; }
-};
-
-struct Info
-{
-	map<int,int> cntD1, cntC1;
-	set<pii, Cmp> cntD2, cntC2;
-};
 
 int test, n, m;
 
@@ -25,96 +17,65 @@ int main()
 	{
 		scanf("%d %d", &n, &m);
 
-		if (n == 1)
-		{
-			int cc[1000000], res = 0;
-			memset(cc, 0, sizeof(cc));
-			for (int i = 0; i < m; ++i)
-				scanf("%d", &n), ++cc[n], res = max(res, cc[n]);
-			printf("%d\n", res);
-			continue;
-		}
-
-		if (m == 1)
-		{
-			int cc[1000000], res = 0;
-			memset(cc, 0, sizeof(cc));
-			for (int i = 0; i < n; ++i)
-				scanf("%d", &m), ++cc[m], res = max(res, cc[m]);
-			printf("%d\n", res);
-			continue;
-		}
-
+		unordered_map<int, vector<pii> > rows, cols;
 
 		vector<vector<int> > a(n, vector<int>(m, 0));
-
-		map<int, Info> info;
 
 		for (int i = 0; i < n; ++i)
 		for (int j = 0; j < m; ++j)
 		{
 			scanf("%d", &a[i][j]);
-			map<int,Info>::iterator infoIt = info.find(a[i][j]);
-			if (infoIt == info.end())
-				infoIt = (info.insert(pair<int, Info>(a[i][j], Info()))).first;
-
-			int tmp = ++(*infoIt).second.cntD1[i];
-			
-			if (tmp == 1)
-				(*infoIt).second.cntD2.insert(pii(1, i));
+			vector<pii>& raij = rows[a[i][j]];
+			if (raij.empty() || raij.back().first != i)
+				raij.push_back(pii(i, 1));
 			else
-			{
-				(*infoIt).second.cntD2.erase((*infoIt).second.cntD2.find(pii(tmp-1, i)));
-				(*infoIt).second.cntD2.insert(pii(tmp, i));
-			}
-
-			tmp = ++(*infoIt).second.cntC1[j];
-			if (tmp == 1)
-				(*infoIt).second.cntC2.insert(pii(1, j));
-			else
-			{
-				(*infoIt).second.cntC2.erase((*infoIt).second.cntC2.find(pii(tmp-1, j)));
-				(*infoIt).second.cntC2.insert(pii(tmp, j));
-			}
+				++raij.back().second;
 		}
 
-		map<int, Info>::iterator it = info.begin();
+		for (int j = 0; j < m; ++j)
+		for (int i = 0; i < n; ++i)
+		{
+			vector<pii>& caij = cols[a[i][j]];
+			if (caij.empty() || caij.back().first != j)
+				caij.push_back(pii(j, 1));
+			else
+				++caij.back().second;
+		}
 
 		int res = 0;
 
-		while (it != info.end())
+		for (unordered_map<int, vector<pii> >::iterator k = rows.begin(); k != rows.end(); ++k)
 		{
-			set<pii, Cmp>::iterator it1 = (*it).second.cntD2.begin(),
-				it2 = (*it).second.cntC2.begin();
-			int x = (*it1).first, y = (*it2).first;
-			vector<int> v1, v2;
+			vector<int> rr, cc;
+			vector<pii>& rk = (*k).second, &ck = cols[(*k).first];
 
-			while (it1 != (*it).second.cntD2.end() && (*it1).first == x)
-			{
-				v1.push_back((*it1).second);
-				++it1;
-			}
+			int mxr = 0, mxc = 0;
 
-			while (it2 != (*it).second.cntC2.end() && (*it2).first == y)
-			{
-				v2.push_back((*it2).second);
-				++it2;
-			}
+			for (int i = 0; i < rk.size(); ++i)
+				mxr = max(mxr, rk[i].second);
+
+			for (int i = 0; i < ck.size(); ++i)
+				mxc = max(mxc, ck[i].second);
+
+			for (int i = 0; i < rk.size(); ++i)
+			if (rk[i].second == mxr)
+				rr.push_back(rk[i].first);
+
+			for (int i = 0; i < ck.size(); ++i)
+			if (ck[i].second == mxc)
+				cc.push_back(ck[i].first);
 
 			int f = 1;
 
-			for (int i = 0; i < v1.size() && f; ++i)
-			for (int j = 0; j < v2.size() && f; ++j)
+			for (int i = 0; i < rr.size() && f; ++i)
+			for (int j = 0; j < cc.size(); ++j)
+			if (a[rr[i]][cc[j]] != (*k).first)
 			{
-				if (a[v1[i]][v2[j]] != (*it).first)
-				{
-					f = 0;
-					break;
-				}
+				f = 0;
+				break;
 			}
 
-			res = max(res, x + y - f);
-			++it;
+			res = max(res, mxr + mxc - f);
 		}
 
 		printf("%d\n", res);
