@@ -15,7 +15,15 @@ int main()
 	{
 		scanf("%lld %lld", &n, &m);
 
-		if ((n&1LL) && (m&1LL))
+		if (n > m) swap(n, m);
+		if (n == 1)
+		{
+			if (m == 2)
+				printf("Yes\n");
+			else
+				printf("No\n");
+		}
+		else if ((n&1LL) && (m&1LL))
 			printf("No\n");
 		else
 			printf("Yes\n");
