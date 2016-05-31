@@ -30,6 +30,8 @@
 # Test input/output
 in.txt
 out.txt
+*.in
+*.out
 
 # Code::Blocks project files
 # (of course they are unneccessary)

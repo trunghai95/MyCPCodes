@@ -2,83 +2,97 @@
 
 using namespace std;
 
-typedef pair<int,int> pii;
-const int MAX = 5e5 + 7;
-int n, m, p[MAX], depth[MAX], v, h, i;
-pii dep[MAX]; // (depth,vertex)
-char c[MAX];
-map<int, map<int,int> > isC; // 1 no, 2 yes
-char s[MAX];
-pii* pp;
+#define MAXN 500000
+#define MAXLOG 19
 
-bool isChild(int &x, int &y)
+int n, m, p[MAXN+1][MAXLOG+1], cnt[MAXN+1][MAXLOG+1][26], h[MAXN+1];
+int ppow[MAXLOG+1], res[26];
+vector<int> child[MAXN+1][MAXLOG+1];
+char s[MAXN+2];
+
+void init()
 {
-    if (y == 1) return 1;
-    if (depth[x] <= depth[y]) return 0;
-    if (isC[x][y])
-        return (isC[x][y] - 1);
-    bool res = isChild(p[x], y);
-    isC[x][y] = 1 + res;
-    return res;
+    memset(p, -1, sizeof(p));
+    ppow[0] = 1;
+    for (int i = 1; i <= MAXLOG; ++i)
+        ppow[i] = ppow[i-1] * 2;
 }
 
-bool isPalin(char* s)
+void dfs(int v, int u = -1)
 {
-    int oddCnt = 0, l = strlen(s), cnt[26], tmp;
-    memset(cnt,0,sizeof(cnt));
-    for (int i = 0; i < l; ++i)
+    if (u != -1)
+        h[v] = h[u] + 1;
+    for (int i = 1; i <= MAXLOG; ++i)
+    if (p[v][i-1] != -1)
     {
-        tmp = s[i] - 'a';
-        ++cnt[tmp];
-        if (cnt[tmp]&1)
-            ++oddCnt;
-        else
-            --oddCnt;
+        p[v][i] = p[p[v][i-1]][i-1];
+        child[p[v][i]][i].push_back(v);
+        ++cnt[p[v][i]][i][s[v]-'a'];
     }
-    return (oddCnt <= 1);
+    else break;
+
+    for (int i = 0; i < (int)child[v][0].size(); ++i)
+        dfs(child[v][0][i], v);
+}
+
+bool solve(int vv, int hh)
+{
+    memset(res, 0, sizeof(res));
+    hh -= h[vv];
+    if (hh <= 0)
+        return true;
+    vector<int> q;
+    q.push_back(vv);
+    while (!q.empty())
+    {
+        int i = MAXLOG;
+        while (ppow[i] > hh) --i;
+        if (ppow[i] == hh)
+        {
+            for (int j = 0; j < (int)q.size(); ++j)
+            for (int k = 0; k < 26; ++k)
+                res[k] += cnt[q[j]][i][k];
+            break;
+        }
+        vector<int> tmp;
+        for (int j = 0; j < (int)q.size(); ++j)
+        for (int k = 0; k < (int)child[q[j]][i].size(); ++k)
+            tmp.push_back(child[q[j]][i][k]);
+        q = tmp;
+    }
+
+    int cc = 0;
+    for (int i = 0; i < 26; ++i)
+        cc += (res[i]&1);
+
+    return (cc <= 1);
 }
 
 int main()
 {
-    memset(p,0,sizeof(p));
-    memset(depth,0,sizeof(depth));
-    freopen("in.txt","r",stdin);
-    scanf("%d %d",&n,&m);
-    depth[1] = 1;
-    dep[1] = pii(1,1);
+    init();
+    scanf("%d %d", &n, &m);
+
+    for (int i = 2; i <= n; ++i)
+        scanf("%d", p[i]);
+
+    scanf("%s", s+1);
+
     for (int i = 2; i <= n; ++i)
     {
-        scanf("%d",p+i);
-        depth[i] = depth[p[i]] + 1;
-        isC[i][p[i]] = 2;
-        dep[i].first = depth[i];
-        dep[i].second = i;
+        child[p[i][0]][0].push_back(i);
+        ++cnt[p[i][0]][0][s[i]-'a'];
     }
-    sort(dep+1,dep+1+n);
-    scanf("%s",c+1);
-    for (int j = 0; j < m; ++j)
+
+    h[1] = 1;
+    dfs(1);
+
+    int vv, hh;
+
+    while (m--)
     {
-        scanf("%d %d", &v, &h);
-        if (depth[v] >= h)
-        {
-            printf("Yes\n");
-            continue;
-        }
-        pp = lower_bound(dep+1,dep+1+n,pii(h,0));
-        if (pp == dep+1+n)
-        {
-            printf("No\n");
-            continue;
-        }
-        i = 0;
-        while (pp < dep+1+n && pp->first == h)
-        {
-            if (isChild(pp->second,v))
-                s[i++] = c[pp->second];
-            ++pp;
-        }
-        s[i] = 0;
-        if (isPalin(s))
+        scanf("%d %d", &vv, &hh);
+        if (solve(vv, hh))
             printf("Yes\n");
         else
             printf("No\n");
