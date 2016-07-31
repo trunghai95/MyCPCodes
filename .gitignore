@@ -38,3 +38,6 @@ out.txt
 *.cbp
 *.depend
 *.layout
+
+*/a
+
