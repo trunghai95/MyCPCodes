@@ -50,12 +50,19 @@ int main() {
 	while (!q.empty()) {
 		Node u = q.front();
 		q.pop();
+
+		if (!u.val) {
+			printf("%d\n", dist[0][u.val] - 1);
+			return 0;
+		}
+
 		if (dist[0][u.val] >= 3)
 			continue;
 
 		for (int i = -1; i < n; ++i)
 		for (int j = i; j < n; ++j)
 		for (int k = j; k < n; ++k) {
+			// cadb
 			memcpy(cache, u.data + j + 1, (k - j) * sizeof(int));
 			memcpy(cache + k - j, u.data, (i + 1) * sizeof(int));
 			memcpy(cache + k - j + i + 1, u.data + k + 1, (n - 1 - k) * sizeof(int));
@@ -84,10 +91,11 @@ int main() {
 		for (int i = -1; i < n; ++i)
 		for (int j = i; j < n; ++j)
 		for (int k = j; k < n; ++k) {
-			memcpy(cache, u.data + j + 1, (k - j) * sizeof(int));
-			memcpy(cache + k - j, u.data, (i + 1) * sizeof(int));
-			memcpy(cache + k - j + i + 1, u.data + k + 1, (n - 1 - k) * sizeof(int));
-			memcpy(cache + n + i - j, u.data + i + 1, (j - i) * sizeof(int));
+			// bdac
+			memcpy(cache, u.data + i + 1, (j - i) * sizeof(int));
+			memcpy(cache + j - i, u.data + k + 1, (n - 1 - k) * sizeof(int));
+			memcpy(cache + j - i + n - 1 - k, u.data, (i + 1) * sizeof(int));
+			memcpy(cache + n + j - k, u.data + j + 1, (k - j) * sizeof(int));
 
 			int tmp = code(cache);
 			if (!dist[1][tmp]) {
@@ -98,7 +106,7 @@ int main() {
 	}
 
 	int res = 6;
-	for (int i = 0; i <= gt[n]; ++i)
+	for (int i = 0; i < gt[n]; ++i)
 	if (dist[0][i] && dist[1][i])
 		res = min(res, dist[0][i] + dist[1][i] - 2);
 
