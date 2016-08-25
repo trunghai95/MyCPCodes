@@ -2,22 +2,30 @@
 
 using namespace std;
 
-int main()
-{
-    int n, a, test;
-    cin >> test;
-    while (test--)
-    {
-        int res = 0;
-        cin >> n;
-        for (int i = 0; i < n; ++i)
-        {
-            cin >> a;
-            res = res ^ a;
+int n, a, res, test, cnt;
+
+int main() {
+    scanf("%d", &test);
+
+    while (test --> 0) {
+        scanf("%d", &n);
+
+        res = cnt = 0;
+
+        for (int i = 0; i < n; ++i) {
+            scanf("%d", &a);
+            res ^= a;
+            cnt += a;
         }
-        cout << res << endl;
-        if (res == 0) cout << -1 << endl;
-        else cout << 1 << endl;
+
+        if (cnt == n) {
+            res = (res == 0);
+        }
+
+        if (res)
+            printf("1\n");
+        else
+            printf("-1\n");
     }
     return 0;
 }

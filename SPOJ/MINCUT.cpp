@@ -16,7 +16,7 @@ ll sum(int x, int y, int u, int v) {
 }
 
 int main() {
-	freopen("MINCUT.OUT", "w", stdout);
+	// freopen("MINCUT.OUT", "w", stdout);
 	scanf("%d %d %d", &n, &m, &k);
 
 	for (int i = 1; i <= n; ++i)
