@@ -2,34 +2,38 @@
 
 using namespace std;
 
-int t, n, s, c[11], sum, cnt;
+int test, n, s, a[20];
 
-int main()
-{
-    cin >> t;
-    while (t--)
-    {
-        sum = cnt = 0;
-        cin >> n >> s;
-        for (int i = 0; i < n; ++i)
-            cin >> c[i];
-        sort(c,c+n);
-        for (int i = 0; i < n; ++i)
-        {
-            sum += c[i];
-            ++cnt;
-            if (sum >= s)
-                break;
+int main() {
+    scanf("%d", &test);
+
+    while (test --> 0) {
+        scanf("%d %d", &n, &s);
+        for (int i = 0; i < n; ++i) {
+            scanf("%d", a+i);
         }
-        for (int i = cnt - 1; i >= 0; --i)
-        {
-            if (sum - c[i] >= s)
-            {
-                sum -= c[i];
-                --cnt;
+
+        int nn = (1 << n);
+        int res = 0;
+        for (int mask = 1; mask < nn; ++mask) {
+            bool f = true;
+            int sum = 0, cnt = 0;
+            for (int i = 0; i < n; ++i)
+            if ((mask >> i) & 1) {
+                sum += a[i];
+                ++cnt;
             }
+
+            if (sum < s) continue;
+
+            for (int i = 0; i < n; ++i)
+            if (((mask >> i) & 1) && sum - a[i] >= s) {
+                f = false;
+                break;
+            }
+            if (f) res = max(res, cnt);
         }
-        cout << cnt << endl;
+        printf("%d\n", res);
     }
     return 0;
 }
