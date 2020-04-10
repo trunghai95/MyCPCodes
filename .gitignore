@@ -39,7 +39,7 @@ out.txt
 *.depend
 *.layout
 
-*/a
+a
 
 # VS Code
 .vscode
