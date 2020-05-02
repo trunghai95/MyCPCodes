@@ -1,9 +1,0 @@
-judge: Case #2 failed: Center not hit in 300 attempts
-Traceback (most recent call last):
-  File "../../interactive_runner.py", line 98, in <module>
-    t_sol.join()
-  File "/usr/lib/python3.6/threading.py", line 1056, in join
-    self._wait_for_tstate_lock()
-  File "/usr/lib/python3.6/threading.py", line 1072, in _wait_for_tstate_lock
-    elif lock.acquire(block, timeout):
-KeyboardInterrupt
