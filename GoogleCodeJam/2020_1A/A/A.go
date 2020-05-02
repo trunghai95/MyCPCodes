@@ -19,6 +19,7 @@ func min(x, y int) int {
 	}
 	return y
 }
+
 func reverse(s string) string {
 	res := ""
 	for i := 0; i < len(s); i++ {
@@ -63,21 +64,13 @@ func solveSuf(suf []string) (string, bool) {
 	return res, ok
 }
 
-func solveMid(s []string) (string, bool) {
+func solve2(s []string) (string, bool) {
 	n := len(s)
 	pre := make([]string, n)
 	suf := make([]string, n)
 	mid := make([]string, n)
-	need := false
 	for i := 0; i < n; i++ {
-		if len(s[i]) > 0 {
-			need = true
-		}
 		id := strings.IndexByte(s[i], byte('*'))
-		if id == -1 {
-			pre[i] = s[i]
-			continue
-		}
 		idLast := strings.LastIndexByte(s[i], byte('*'))
 		// fmt.Println(s[i], id, idLast)
 		pre[i] = s[i][0:id]
@@ -86,16 +79,20 @@ func solveMid(s []string) (string, bool) {
 			mid[i] = s[i][id+1 : idLast]
 		}
 	}
-	if !need {
-		return "", true
-	}
 	resp, okp := solvePre(pre)
 	ress, oks := solveSuf(suf)
-	resm, okm := solveMid(mid)
-	if okp && oks && okm {
-		return resp + resm + ress, true
+	if !okp || !oks {
+		return "", false
 	}
-	return "", false
+	resm := ""
+	for _, s := range mid {
+		for _, c := range s {
+			if c != '*' {
+				resm = resm + string(c)
+			}
+		}
+	}
+	return resp + resm + ress, true
 }
 
 func solve(t int) {
@@ -108,7 +105,7 @@ func solve(t int) {
 
 	}
 	fmt.Printf("Case #%v: ", t)
-	res, ok := solveMid(s)
+	res, ok := solve2(s)
 	if ok {
 		fmt.Printf("%s\n", res)
 	} else {
