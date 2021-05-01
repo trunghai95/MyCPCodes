@@ -52,27 +52,30 @@ func solve(tt int) {
 		sum += n * p
 	}
 
-	res := tryy(sum, 1, 0, 0)
+	res := int64(0)
+	for score := sum - 2; score >= max(2, sum-30000); score-- {
+		if check(score, sum-score) {
+			res = score
+			break
+		}
+	}
 	fmt.Fprintf(out, "Case #%d: %d\n", tt, res)
 }
 
-func tryy(sum, prod, pi, pcnt int64) int64 {
-	if prod > sum {
-		return 0
-	}
-	if prod == sum {
-		return sum
-	}
-	res := int64(0)
-	if pcnt+1 <= cnt[pi] && prod <= (sum-primes[pi])/primes[pi] {
-		res = max(res, tryy(sum-primes[pi], prod*primes[pi], pi, pcnt+1))
-	}
-	for i := pi + 1; i < int64(len(primes)); i++ {
-		if cnt[i] > 0 && prod <= (sum-primes[i])/primes[i] {
-			res = max(res, tryy(sum-primes[i], prod*primes[i], i, 1))
+func check(score, sum int64) bool {
+	for pi := 0; pi < len(primes); pi++ {
+		for i := int64(0); i < cnt[pi]; i++ {
+			if score%primes[pi] != 0 {
+				break
+			}
+			score = score / primes[pi]
+			sum -= primes[pi]
+		}
+		if score%primes[pi] == 0 {
+			return false
 		}
 	}
-	return res
+	return (score == 1 && sum == 0)
 }
 
 func max(x, y int64) int64 {
