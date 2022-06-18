@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	in = bufio.NewReader(os.Stdin)
+	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
 )
 
